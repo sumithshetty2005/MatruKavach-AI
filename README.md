@@ -8,11 +8,11 @@
 * **Clinical Report Analysis**: Processes medical documents (PDF/DOCX) to extract and interpret vital health metrics.
 * **Intelligent Nutrition Planning**: Generates personalized dietary and wellness advice based on clinical risks and environmental conditions.
 * **Telegram Integration**: Features a dedicated bot (`telegram_poller.py`) for real-time interaction and accessibility.
-* **Real-time Infrastructure**: Built with a FastAPI backend and Socket.io for low-latency communication.
+* **Real-Time Infrastructure**: Built with a FastAPI backend and Socket.io for low-latency communication.
 
 ## Tech Stack
 
-* **AI/ML**: Agentic AI Framework (LangChain), Gemini API.
+* **AI/ML**: LangChain (Agentic AI Framework), Gemini API.
 * **Backend**: Python 3.12, FastAPI, SQLAlchemy.
 * **Communication**: Telegram Bot API, Socket.io.
 * **Frontend**: Next.js (App Router), TypeScript, Tailwind CSS.
@@ -29,44 +29,66 @@ MatruKavach-AI/
 │   ├── models.py          # Database models
 │   └── seed_db.py         # Database initialization scripts
 ├── frontend/
-│   ├── app/               # Next.js App Router (Admin, Asha, and Doctor portals)
+│   ├── app/               # Next.js App Router (Admin, ASHA, and Doctor portals)
 │   ├── components/        # Reusable UI components
 │   └── public/            # Static assets
 └── .gitignore             # Secure file exclusion
+```
+## Installation & Setup
 
+### 1. Clone the Repository
 
-## **Installation & Setup**
-
-1. Clone the Repository
-git clone [https://github.com/sumithshetty2005/-MatruKavach-AI.git](https://github.com/sumithshetty2005/-MatruKavach-AI.git)
+```bash
+git clone https://github.com/sumithshetty2005/-MatruKavach-AI.git
 cd MatruKavach-AI
+```
 
-2. Backend Setup
-Navigate to backend: cd backend
-Create Virtual Environment: python -m venv venv
-Activate Environment:
-Windows: .\venv\Scripts\activate
-Mac/Linux: source venv/bin/activate
-Install Dependencies: pip install -r requirements.txt
-Environment Variables: Create a .env file in the backend/ folder:
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv venv
+```
+## Activate Virtual Environment
 
-Code snippet
+## Windows
+```
+.\venv\Scripts\activate
+```
+## Mac/Linux
+```
+source venv/bin/activate
+```
+## Install Dependencies
+``` pip install -r requirements.txt
+Create a .env File inside the backend/ Folder
+```
+## Create a file named .env and add:
+```
 GOOGLE_API_KEY=your_gemini_api_key
 TELEGRAM_BOT_TOKEN=your_bot_token
 DATABASE_URL=sqlite:///./matrukavach.db
-3. Frontend Setup
-Navigate to frontend: cd ../frontend
+```
+### 3. Frontend Setup
+```
+cd ../frontend
+npm install
+```
+### Running the Application
+## Start Backend (from backend folder)
+```
+uvicorn main:socket_app --reload --port 8000
+```
+## Start Telegram Bot (from backend folder)
+``` python telegram_poller.py
+```
+## Start Frontend (from frontend folder)
+```
+npm run dev
+```
+### Testing
+## From the backend/ folder, run:
+```
+python test_agent.py
+python test_db.py
+```
 
-Install Dependencies: npm install
-
-Running the Application
-Start Backend: uvicorn main:socket_app --reload --port 8000 (from backend folder)
-Start Telegram Bot: python telegram_poller.py (from backend folder)
-Start Frontend: npm run dev (from frontend folder)
-
-Testing
-The repository includes several test scripts to verify the integrity of the AI agents and database:
-
-Run python test_agent.py to test AI agent logic.
-
-Run python test_db.py to verify database connectivity.
