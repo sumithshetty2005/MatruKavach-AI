@@ -73,15 +73,15 @@ DATABASE_URL=sqlite:///./matrukavach.db
 cd ../frontend
 npm install
 ```
-### Running the Application
-## Start Backend (from backend folder)
+## Running the Application
+### Start Backend (from backend folder)
 ```
 uvicorn main:socket_app --reload --port 8000
 ```
-## Start Telegram Bot (from backend folder)
+### Start Telegram Bot (from backend folder)
 ``` python telegram_poller.py
 ```
-## Start Frontend (from frontend folder)
+### Start Frontend (from frontend folder)
 ```
 npm run dev
 ```
