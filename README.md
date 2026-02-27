@@ -34,41 +34,41 @@ MatruKavach-AI/
 │   └── public/            # Static assets
 └── .gitignore             # Secure file exclusion
 ```
-## Installation & Setup
+### Installation & Setup
 
-### 1. Clone the Repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/sumithshetty2005/-MatruKavach-AI.git
 cd MatruKavach-AI
 ```
 
-### 2. Backend Setup
+## 2. Backend Setup
 ```bash
 cd backend
 python -m venv venv
 ```
-## Activate Virtual Environment
+### Activate Virtual Environment
 
 ## Windows
 ```
 .\venv\Scripts\activate
 ```
-## Mac/Linux
+### Mac/Linux
 ```
 source venv/bin/activate
 ```
-## Install Dependencies
+### Install Dependencies
 ``` pip install -r requirements.txt
 Create a .env File inside the backend/ Folder
 ```
-## Create a file named .env and add:
+### Create a file named .env and add:
 ```
 GOOGLE_API_KEY=your_gemini_api_key
 TELEGRAM_BOT_TOKEN=your_bot_token
 DATABASE_URL=sqlite:///./matrukavach.db
 ```
-### 3. Frontend Setup
+## 3. Frontend Setup
 ```
 cd ../frontend
 npm install
@@ -85,8 +85,8 @@ uvicorn main:socket_app --reload --port 8000
 ```
 npm run dev
 ```
-### Testing
-## From the backend/ folder, run:
+## Testing
+### From the backend/ folder, run:
 ```
 python test_agent.py
 python test_db.py
