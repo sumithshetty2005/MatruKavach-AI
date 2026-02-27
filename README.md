@@ -1,64 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
-    <metadata>
-        <title>MatruKavach AI 🛡️🤰</title>
-        <author>Sumith Shetty</author>
-        <institution>Lokmanya Tilak College of Engineering (LTCE)</institution>
-        <specialization>Artificial Intelligence and Machine Learning</specialization>
-        <status>Pre-final Year BE Project</status>
-    </metadata>
+# MatruKavach AI
 
-    <description>
-        MatruKavach AI is an advanced Agentic AI ecosystem designed to provide comprehensive support for maternal health. By leveraging a multi-agent orchestration pipeline, the system analyzes clinical reports, nutrition requirements, and geospatial data to ensure the well-being of expectant mothers.
-    </description>
+**MatruKavach AI** is an advanced Agentic AI ecosystem designed to provide comprehensive support for maternal health. By leveraging a multi-agent orchestration pipeline, the system analyzes clinical reports, nutrition requirements, and geospatial data to ensure the well-being of expectant mothers.
 
-    <features>
-        <feature>
-            <name>Multi-Agent Orchestration</name>
-            <detail>Utilizes a specialized agent pipeline including Clinical, Nutrition, Geospatial, and Graph agents.</detail>
-        </feature>
-        <feature>
-            <name>Clinical Report Analysis</name>
-            <detail>Processes medical documents (PDF/DOCX) to extract and interpret vital health metrics.</detail>
-        </feature>
-        <feature>
-            <name>Intelligent Nutrition Planning</name>
-            <detail>Generates personalized dietary recommendations based on individual health profiles.</detail>
-        </feature>
-        <feature>
-            <name>Real-time Infrastructure</name>
-            <detail>Built with a FastAPI backend and Socket.io for low-latency communication.</detail>
-        </feature>
-    </features>
+## Key Features
 
-    <tech_stack>
-        <category name="AI_ML">
-            <item>Agentic AI Framework</item>
-            <item>Gemini API</item>
-        </category>
-        <category name="Backend">
-            <item>Python</item>
-            <item>FastAPI</item>
-            <item>Uvicorn</item>
-        </category>
-        <category name="Communication">
-            <item>Telegram Bot API</item>
-            <item>Socket.io</item>
-        </category>
-    </tech_stack>
+* **Multi-Agent Orchestration**: Utilizes a specialized agent pipeline including Clinical, Geospatial, Nutrition, and Graph agents.
+* **Clinical Report Analysis**: Processes medical documents (PDF/DOCX) to extract and interpret vital health metrics.
+* **Intelligent Nutrition Planning**: Generates personalized dietary and wellness advice based on clinical risks and environmental conditions.
+* **Telegram Integration**: Features a dedicated bot (`telegram_poller.py`) for real-time interaction and accessibility.
+* **Real-time Infrastructure**: Built with a FastAPI backend and Socket.io for low-latency communication.
 
-    <directory_structure>
-        <folder name="backend">
-            <subfolder name="agents">Specialized AI Agents</subfolder>
-            <subfolder name="routers">API and Telegram Bot routes</subfolder>
-            <file name="main.py">Entry point for the FastAPI server</file>
-        </folder>
-        <folder name="frontend">React source code</folder>
-    </directory_structure>
+## Tech Stack
 
-    <setup_commands>
-        <command>git clone https://github.com/sumithshetty2005/-MatruKavach-AI.git</command>
-        <command>pip install -r requirements.txt</command>
-        <command>python backend/main.py</command>
-    </setup_commands>
-</project>
+* **AI/ML**: Agentic AI Framework (LangChain), Gemini API.
+* **Backend**: Python 3.12, FastAPI, SQLAlchemy.
+* **Communication**: Telegram Bot API, Socket.io.
+* **Frontend**: Next.js (App Router), TypeScript, Tailwind CSS.
+
+## Project Structure
+
+```text
+MatruKavach-AI/
+├── backend/
+│   ├── agents/            # AI Agents (clinical.py, geospatial.py, nutrition.py, etc.)
+│   ├── routers/           # API and Telegram Bot routes
+│   ├── uploads/           # Clinical reports and document storage
+│   ├── main.py            # Entry point for the FastAPI server
+│   ├── models.py          # Database models
+│   └── seed_db.py         # Database initialization scripts
+├── frontend/
+│   ├── app/               # Next.js App Router (Admin, Asha, and Doctor portals)
+│   ├── components/        # Reusable UI components
+│   └── public/            # Static assets
+└── .gitignore             # Secure file exclusion
+
+## Installation & Setup
+
+1. Clone the Repository
+git clone [https://github.com/sumithshetty2005/-MatruKavach-AI.git](https://github.com/sumithshetty2005/-MatruKavach-AI.git)
+cd MatruKavach-AI
+
+2. Backend Setup
+Navigate to backend: cd backend
+Create Virtual Environment: python -m venv venv
+Activate Environment:
+Windows: .\venv\Scripts\activate
+Mac/Linux: source venv/bin/activate
+Install Dependencies: pip install -r requirements.txt
+Environment Variables: Create a .env file in the backend/ folder:
+
+Code snippet
+GOOGLE_API_KEY=your_gemini_api_key
+TELEGRAM_BOT_TOKEN=your_bot_token
+DATABASE_URL=sqlite:///./matrukavach.db
+3. Frontend Setup
+Navigate to frontend: cd ../frontend
+
+Install Dependencies: npm install
+
+Running the Application
+Start Backend: uvicorn main:socket_app --reload --port 8000 (from backend folder)
+Start Telegram Bot: python telegram_poller.py (from backend folder)
+Start Frontend: npm run dev (from frontend folder)
+
+Testing
+The repository includes several test scripts to verify the integrity of the AI agents and database:
+
+Run python test_agent.py to test AI agent logic.
+
+Run python test_db.py to verify database connectivity.
