@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, DM_Serif_Text } from "next/font/google";
 import { GeistSans } from 'geist/font/sans';
+import { ClerkProvider } from '@clerk/nextjs';
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -27,13 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${bricolage.variable} ${dmSerif.variable} ${GeistSans.variable} font-body antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${bricolage.variable} ${dmSerif.variable} ${GeistSans.variable} font-body antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
-

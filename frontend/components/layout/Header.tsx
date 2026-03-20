@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 
 export function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { isSignedIn } = useAuth();
 
     return (
         <motion.header
@@ -25,14 +27,30 @@ export function Header() {
                     <Link href="/asha" className="hover:text-gray-500 transition-colors">ASHA Portal</Link>
                     <Link href="/doctor" className="hover:text-gray-500 transition-colors">Doctor Portal</Link>
                     <Link href="/admin" className="hover:text-gray-500 transition-colors">Admin</Link>
+
+                    {!isSignedIn && (
+                        <SignInButton mode="modal">
+                            <button className="bg-black text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-800 transition-all shadow-sm">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                    )}
+                    {isSignedIn && (
+                        <UserButton appearance={{ elements: { avatarBox: "w-10 h-10" } }} />
+                    )}
                 </nav>
 
-                <button
-                    className="md:hidden p-2 text-gray-800"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                <div className="md:hidden flex items-center gap-4">
+                    {isSignedIn && (
+                        <UserButton />
+                    )}
+                    <button
+                        className="p-2 text-gray-800"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             <AnimatePresence>
@@ -47,6 +65,14 @@ export function Header() {
                             <Link href="/asha" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-gray-100 hover:text-gray-500 transition-colors">ASHA Portal</Link>
                             <Link href="/doctor" onClick={() => setIsMobileMenuOpen(false)} className="py-2 border-b border-gray-100 hover:text-gray-500 transition-colors">Doctor Portal</Link>
                             <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-gray-500 transition-colors">Admin</Link>
+
+                            {!isSignedIn && (
+                                <SignInButton mode="modal">
+                                    <button className="py-2 mt-2 w-full bg-black text-white rounded-lg font-bold hover:bg-gray-800 transition-all text-center">
+                                        Sign In
+                                    </button>
+                                </SignInButton>
+                            )}
                         </nav>
                     </motion.div>
                 )}

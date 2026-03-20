@@ -138,7 +138,7 @@ export default function DoctorPatientDetail() {
             <Header />
 
             <div className="container mx-auto px-4 py-8 max-w-6xl">
-                
+
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
                         <div className="flex items-center gap-4 mb-2">
@@ -177,7 +177,7 @@ export default function DoctorPatientDetail() {
                 </div>
 
                 <div className="space-y-8">
-                    
+
                     {activeTab === "consultations" && (
                         <div>
                             {isConsulting && (
@@ -294,7 +294,7 @@ export default function DoctorPatientDetail() {
                                 history.map((record, i) => {
                                     const date = new Date(record.risk.timestamp);
                                     let flags = [];
-                                    try { flags = JSON.parse(record.risk.clinical_flags) || []; } catch (e) 
+                                    try { flags = JSON.parse(record.risk.clinical_flags) || []; } catch (e) { }
 
                                     return (
                                         <Card key={i} className="p-6 bg-white border border-gray-200 shadow-sm relative overflow-hidden">

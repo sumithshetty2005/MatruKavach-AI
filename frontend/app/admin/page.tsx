@@ -42,7 +42,7 @@ export default function AdminDashboard() {
 
     const handleAssign = async (motherId: string, doctorId: string | null, ashaId: string | null) => {
         try {
-            const payload: any = ;
+            const payload: any = {};
             if (doctorId !== null) payload.doctor_id = doctorId;
             if (ashaId !== null) payload.asha_id = ashaId;
 
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
             });
 
             if (res.ok) {
-                
+
                 fetchData();
             } else {
                 alert("Failed to assign.");
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
             <Header />
 
             <div className="container mx-auto px-4 py-8 max-w-7xl space-y-8">
-                
+
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
                     <div>
                         <h1 className="text-3xl font-heading font-bold text-gray-900">Admin Dashboard</h1>
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <AnimatePresence mode="wait">
-                    
+
                     {activeTab === "overview" && (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
 
