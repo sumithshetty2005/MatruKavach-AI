@@ -61,6 +61,7 @@ def seed_data():
             longitude=72.882
         )
         session.add(kavita)
+        session.commit() # Commit mothers first to ensure foreign keys exist in PostgreSQL
 
         a1_data = AssessmentData(
             mother_id=jiya.id,

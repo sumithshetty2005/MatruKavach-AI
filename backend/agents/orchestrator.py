@@ -6,9 +6,10 @@ from models import RiskAssessment
 import google.generativeai as genai
 import os
 
-GEMINI_API_KEY = os.environ.get("GOOGLE_API_KEY")
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+GEMINI_API_KEY_STR = os.environ.get("GOOGLE_API_KEY", "")
+api_keys = [k.strip() for k in GEMINI_API_KEY_STR.split(",") if k.strip()]
+if api_keys:
+    genai.configure(api_key=api_keys[0])
     model = genai.GenerativeModel('gemini-2.5-flash')
 else:
     model = None
@@ -65,9 +66,6 @@ class MatruKavachOrchestrator:
         if not messages:
             return "No recent chat history found."
             
-        if not model:
-            return "AI model not configured for summary generation."
-
         formatted_messages = []
         for msg in messages:
             date_str = msg.timestamp.strftime("%Y-%m-%d %H:%M")
@@ -85,9 +83,20 @@ class MatruKavachOrchestrator:
         {chat_log}
         """
         
-        try:
-            response = model.generate_content(prompt)
-            return response.text.strip()
-        except Exception as e:
-            print(f"Error generating summary: {e}")
-            return "Failed to generate summary due to an AI error."
+        api_key_str = os.environ.get("GOOGLE_API_KEY", "")
+        api_keys = [k.strip() for k in api_key_str.split(",") if k.strip()]
+        if not api_keys:
+            return "AI model not configured for summary generation (no keys found)."
+            
+        last_error = None
+        for api_key in api_keys:
+            try:
+                genai.configure(api_key=api_key)
+                current_model = genai.GenerativeModel('gemini-2.5-flash')
+                response = current_model.generate_content(prompt)
+                return response.text.strip()
+            except Exception as e:
+                print(f"Summary generation failed for key starting with '{api_key[:8]}': {e}")
+                last_error = e
+                
+        return f"Failed to generate summary due to an AI error: {last_error}"
