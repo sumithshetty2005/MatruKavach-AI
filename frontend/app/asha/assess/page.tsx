@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { API_BASE_URL } from "@/lib/api";
 
-export default function AssessmentPage() {
+function AssessmentContent() {
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [locationCoords, setLocationCoords] = useState<{ lat: number; lon: number } | null>(null);
@@ -415,5 +415,13 @@ export default function AssessmentPage() {
                 </AnimatePresence>
             </div>
         </div>
+    );
+}
+
+export default function AssessmentPage() {
+    return (
+        <Suspense fallback={<div className="text-center py-10 text-gray-900 animate-pulse font-medium">Loading Assessment Form...</div>}>
+            <AssessmentContent />
+        </Suspense>
     );
 }
