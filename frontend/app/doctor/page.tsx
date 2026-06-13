@@ -7,12 +7,14 @@ import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Header } from "@/components/layout/Header";
 
+import { API_BASE_URL } from "@/lib/api";
+
 export default function DoctorDashboard() {
     const [mothers, setMothers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:8000/mothers")
+        fetch(`${API_BASE_URL}/mothers`)
             .then(res => res.json())
             .then(data => {
                 setMothers(data);

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { MapPin, ThermometerSun, Activity, HeartPulse, AlertTriangle, CheckCircle, Droplets, Wind, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function AssessmentPage() {
     const searchParams = useSearchParams();
@@ -50,7 +51,7 @@ export default function AssessmentPage() {
                     }
 
                     try {
-                        const envRes = await fetch(`http://localhost:8000/env_data?lat=${lat}&lon=${lon}`);
+                        const envRes = await fetch(`${API_BASE_URL}/env_data?lat=${lat}&lon=${lon}`);
                         if (envRes.ok) setEnvData(await envRes.json());
                     } catch (e) {
                         console.error("Failed to load env data");
@@ -74,7 +75,7 @@ export default function AssessmentPage() {
         setNoteSaved(false);
 
         try {
-            const response = await fetch("http://localhost:8000/assess", {
+            const response = await fetch(`${API_BASE_URL}/assess`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -113,7 +114,7 @@ export default function AssessmentPage() {
         if (!result?.id || !consultationNote) return;
         setNoteSaving(true);
         try {
-            const res = await fetch(`http://localhost:8000/assessment/${result.id}/consultation`, {
+            const res = await fetch(`${API_BASE_URL}/assessment/${result.id}/consultation`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ note: consultationNote })

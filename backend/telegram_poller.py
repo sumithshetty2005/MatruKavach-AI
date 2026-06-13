@@ -2,9 +2,12 @@ import requests
 import time
 import sys
 
-TOKEN = "8553661113:AAEU_KhpKEEK4JN75t5Ie41y3ewJVPAxSmg"
+import os
+
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8553661113:AAEU_KhpKEEK4JN75t5Ie41y3ewJVPAxSmg")
 API_URL = f"https://api.telegram.org/bot{TOKEN}"
-WEBHOOK_URL = "http://localhost:8000/webhook/telegram"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+WEBHOOK_URL = f"{BACKEND_URL}/webhook/telegram"
 
 def main():
     print("Deleting webhook to enable getUpdates...")

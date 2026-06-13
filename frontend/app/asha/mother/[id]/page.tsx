@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { ChatWindow } from "@/components/ChatWindow";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function MotherDetailPage() {
     const params = useParams();
@@ -25,13 +26,13 @@ export default function MotherDetailPage() {
         async function fetchData() {
             try {
                 
-                const motherRes = await fetch(`http://localhost:8000/mother/${motherId}`);
+                const motherRes = await fetch(`${API_BASE_URL}/mother/${motherId}`);
                 if (motherRes.ok) setMother(await motherRes.json());
 
-                const histRes = await fetch(`http://localhost:8000/mother/${motherId}/history`);
+                const histRes = await fetch(`${API_BASE_URL}/mother/${motherId}/history`);
                 if (histRes.ok) setHistory(await histRes.json());
 
-                const docsRes = await fetch(`http://localhost:8000/mother/${motherId}/documents`);
+                const docsRes = await fetch(`${API_BASE_URL}/mother/${motherId}/documents`);
                 if (docsRes.ok) setDocuments(await docsRes.json());
 
             } catch (e) {
@@ -50,7 +51,7 @@ export default function MotherDetailPage() {
         const formData = new FormData();
         formData.append("file", file);
         try {
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/upload`, {
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/upload`, {
                 method: "POST",
                 body: formData
             });
@@ -71,7 +72,7 @@ export default function MotherDetailPage() {
         if (!confirm("Are you sure you want to delete this assessment?")) return;
 
         try {
-            const res = await fetch(`http://localhost:8000/assessment/${assessmentDataId}`, {
+            const res = await fetch(`${API_BASE_URL}/assessment/${assessmentDataId}`, {
                 method: "DELETE"
             });
             if (res.ok) {
@@ -251,7 +252,7 @@ export default function MotherDetailPage() {
                                                         <p className="text-xs text-gray-500 font-medium mt-1 uppercase tracking-wider">{new Date(doc.uploaded_at).toLocaleString()}</p>
                                                     </div>
                                                 </div>
-                                                <a href={`http://localhost:8000/${doc.file_path}`} target="_blank" rel="noreferrer">
+                                                <a href={`${API_BASE_URL}/${doc.file_path}`} target="_blank" rel="noreferrer">
                                                     <Button variant="secondary" size="sm">View</Button>
                                                 </a>
                                             </div>

@@ -7,6 +7,8 @@ import { Card } from "@/components/ui/Card";
 import { Shield, RefreshCw, Users, UserPlus, Activity, CheckCircle2, AlertTriangle, Edit2, Trash2, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { API_BASE_URL } from "@/lib/api";
+
 export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState("overview");
     const [stats, setStats] = useState<any>(null);
@@ -19,10 +21,10 @@ export default function AdminDashboard() {
         setLoading(true);
         try {
             const [statsRes, mothersRes, docsRes, ashasRes] = await Promise.all([
-                fetch("http://localhost:8000/admin/stats"),
-                fetch("http://localhost:8000/mothers"),
-                fetch("http://localhost:8000/doctors"),
-                fetch("http://localhost:8000/asha_workers"),
+                fetch(`${API_BASE_URL}/admin/stats`),
+                fetch(`${API_BASE_URL}/mothers`),
+                fetch(`${API_BASE_URL}/doctors`),
+                fetch(`${API_BASE_URL}/asha_workers`),
             ]);
 
             if (statsRes.ok) setStats(await statsRes.json());
@@ -46,7 +48,7 @@ export default function AdminDashboard() {
             if (doctorId !== null) payload.doctor_id = doctorId;
             if (ashaId !== null) payload.asha_id = ashaId;
 
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/assign_hr`, {
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/assign_hr`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

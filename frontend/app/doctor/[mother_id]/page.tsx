@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { MapPin, Calendar, Clock, Activity, FileText, Pill, FileUp, Apple, ClipboardList, CheckCircle2, MessageSquare, AlertCircle, RefreshCw } from "lucide-react";
 import { ChatWindow } from "@/components/ChatWindow";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function DoctorPatientDetail() {
     const params = useParams();
@@ -32,10 +33,10 @@ export default function DoctorPatientDetail() {
 
     useEffect(() => {
         Promise.all([
-            fetch(`http://localhost:8000/mother/${motherId}`).then(res => res.json()),
-            fetch(`http://localhost:8000/mother/${motherId}/history`).then(res => res.json()),
-            fetch(`http://localhost:8000/mother/${motherId}/consultations`).then(res => res.json()),
-            fetch(`http://localhost:8000/mother/${motherId}/documents`).then(res => res.json())
+            fetch(`${API_BASE_URL}/mother/${motherId}`).then(res => res.json()),
+            fetch(`${API_BASE_URL}/mother/${motherId}/history`).then(res => res.json()),
+            fetch(`${API_BASE_URL}/mother/${motherId}/consultations`).then(res => res.json()),
+            fetch(`${API_BASE_URL}/mother/${motherId}/documents`).then(res => res.json())
         ])
             .then(([motherData, historyData, consultationData, documentData]) => {
                 setMother(motherData);
@@ -53,7 +54,7 @@ export default function DoctorPatientDetail() {
     const handleGenerateSummary = async () => {
         setGeneratingSummary(true);
         try {
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/chat/summary`);
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/chat/summary`);
             if (res.ok) {
                 const data = await res.json();
                 setChatSummary(data.summary);
@@ -74,7 +75,7 @@ export default function DoctorPatientDetail() {
         formData.append("document_type", "Scanned Report");
 
         try {
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/documents`, {
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/documents`, {
                 method: "POST",
                 body: formData
             });
@@ -100,7 +101,7 @@ export default function DoctorPatientDetail() {
                 next_consultation_date: consultForm.next_consultation_date ? new Date(consultForm.next_consultation_date).toISOString() : null
             };
 
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/consultations`, {
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/consultations`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

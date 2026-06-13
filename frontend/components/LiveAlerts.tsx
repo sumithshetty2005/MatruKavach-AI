@@ -1,15 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+import { socket } from "@/lib/api";
 import { X, Bell, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-
-const socket = io("http://localhost:8000", {
-    transports: ["websocket"],
-    autoConnect: true,
-});
 
 interface Alert {
     id: string;

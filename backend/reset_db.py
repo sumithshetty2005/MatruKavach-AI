@@ -4,8 +4,8 @@ import models
 import os
 
 print("Deleting DB...")
-if os.path.exists("matrukavach.db"):
-    os.remove("matrukavach.db")
+if os.path.exists("data/matrukavach.db"):
+    os.remove("data/matrukavach.db")
 
 print("Recreating tables...")
 create_db_and_tables()

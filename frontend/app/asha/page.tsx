@@ -7,12 +7,14 @@ import { Plus, Search, MapPin, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 
+import { API_BASE_URL } from "@/lib/api";
+
 export default function AshaDashboard() {
     const [mothers, setMothers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:8000/mothers")
+        fetch(`${API_BASE_URL}/mothers`)
             .then(res => res.json())
             .then(data => {
                 setMothers(data);

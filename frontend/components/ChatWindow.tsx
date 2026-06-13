@@ -4,12 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Send, User, Mic, PlayCircle } from "lucide-react";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:8000", {
-    transports: ["websocket"],
-    autoConnect: true,
-});
+import { API_BASE_URL, socket } from "@/lib/api";
 
 interface ChatMessage {
     id: string;
@@ -33,7 +28,7 @@ export function ChatWindow({ motherId }: ChatWindowProps) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/mother/${motherId}/chat`)
+        fetch(`${API_BASE_URL}/mother/${motherId}/chat`)
             .then(res => res.json())
             .then(data => {
                 
@@ -87,7 +82,7 @@ export function ChatWindow({ motherId }: ChatWindowProps) {
 
         setSending(true);
         try {
-            const res = await fetch(`http://localhost:8000/mother/${motherId}/reply`, {
+            const res = await fetch(`${API_BASE_URL}/mother/${motherId}/reply`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ content: newMessage }),

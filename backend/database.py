@@ -1,6 +1,9 @@
 from sqlmodel import create_engine, SQLModel, Session
 
-sqlite_file_name = "matrukavach.db"
+import os
+
+sqlite_file_name = "data/matrukavach.db"
+os.makedirs("data", exist_ok=True)
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 connect_args = {"check_same_thread": False}

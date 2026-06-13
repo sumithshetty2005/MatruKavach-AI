@@ -42,8 +42,8 @@ orchestrator = MatruKavachOrchestrator()
 SessionDep = Annotated[Session, Depends(get_session)]
 
 import os
-os.makedirs("uploads", exist_ok=True)
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+os.makedirs("data/uploads", exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="data/uploads"), name="uploads")
 
 @app.get("/")
 def read_root():
@@ -230,7 +230,7 @@ def create_consultation(mother_id: str, consultation: Consultation, session: Ses
             
     return consultation
 
-UPLOAD_DIR = "uploads"
+UPLOAD_DIR = "data/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.post("/mother/{mother_id}/documents", response_model=Document)
@@ -269,7 +269,7 @@ async def upload_document(mother_id: str, session: SessionDep, file: UploadFile 
     if not mother:
         raise HTTPException(status_code=404, detail="Mother not found")
         
-    file_path = f"uploads/{mother_id}_{file.filename}"
+    file_path = f"data/uploads/{mother_id}_{file.filename}"
     with open(file_path, "wb") as f:
         f.write(await file.read())
         
