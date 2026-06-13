@@ -25,10 +25,7 @@ develop-eggs/
 dist/
 downloads/
 eggs/
-.eggs/
-lib/
-lib64/
-parts/
+# Python-specific folders are already covered by venv/ and .venv/ above
 sdist/
 var/
 wheels/
