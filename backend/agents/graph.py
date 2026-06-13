@@ -104,10 +104,6 @@ def generate_guidance_node(state: GraphState) -> Dict:
         "weather_condition": weather_cond
     })
 
-    api_key = os.environ.get("GOOGLE_API_KEY")
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.1, api_key=api_key)
-    structured_llm = llm.with_structured_output(GuidanceOutput)
-    
     prompt = f"""
     You are an expert AI Clinical Dietician assisting a doctor for a pregnant mother named {state["name"]}.
     Clinical Flags: {clinical_flags}
@@ -120,19 +116,42 @@ def generate_guidance_node(state: GraphState) -> Dict:
     2. Categorize the practical advice into Clinical Dietary Plan, Environmental Safety Protocols, and Medication/Monitoring. Extract specific actionable items.
     """
     
-    try:
-        response: GuidanceOutput = structured_llm.invoke([HumanMessage(content=prompt)])
+    api_key_str = os.environ.get("GOOGLE_API_KEY", "")
+    api_keys = [k.strip() for k in api_key_str.split(",") if k.strip()]
+    if not api_keys:
+        api_keys = [""]
+        
+    response = None
+    last_error = None
+    
+    for api_key in api_keys:
+        try:
+            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.1, api_key=api_key)
+            structured_llm = llm.with_structured_output(GuidanceOutput)
+            response = structured_llm.invoke([HumanMessage(content=prompt)])
+            break # Success, break out of loop
+        except Exception as e:
+            last_error = e
+            error_msg = str(e)
+            print(f"API Key starting with '{api_key[:8]}' failed: {e}")
+            # If it's a quota, rate limit or invalid key error, try the next key
+            if any(term in error_msg for term in ["429", "Quota", "RESOURCE_EXHAUSTED", "API_KEY_INVALID", "invalid"]):
+                continue
+            else:
+                break # Non-key error, don't continue rotating
+                
+    if response:
         justification = response.clinical_justification
         advice_dict = {
             "Clinical Dietary Plan": response.clinical_dietary_plan,
             "Environmental Safety Protocols": response.environmental_safety_protocols,
             "Medication & Monitoring": response.medication_monitoring
         }
-    except Exception as e:
-        print(f"Failed to call LLM: {e}")
-        error_msg = str(e)
+    else:
+        print(f"Failed to call LLM after trying all keys: {last_error}")
+        error_msg = str(last_error) if last_error else ""
         if "429" in error_msg or "Quota" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
-            justification = "System fallback activated: The attached Google Gemini API Key has exceeded its free-tier quota limits. Please upgrade or replace the GOOGLE_API_KEY."
+            justification = "System fallback activated: All provided Google Gemini API Keys have exceeded free-tier quota limits. Please upgrade or replace the GOOGLE_API_KEY."
         else:
             justification = "System fallback activated. Standard clinical rules applied without extended context."
             
