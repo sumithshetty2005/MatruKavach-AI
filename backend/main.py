@@ -30,9 +30,13 @@ socket_app = socketio.ASGIApp(sio, app)
 
 app.include_router(telegram_bot.router)
 
+# Read CORS origins from environment variable, fallback to localhost:3000
+origins_env = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+allow_origins = [origin.strip() for origin in origins_env.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
