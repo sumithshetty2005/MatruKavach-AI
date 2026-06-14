@@ -18,11 +18,6 @@ The layout below illustrates how client interactions, the API server, database t
 This diagram walks through the step-by-step workflow of a patient submitting their information and how alerts are generated or parsed.
 
 ![MatruKavach AI User Flow](./docs/user_flow_v2.png)
-
-> [!NOTE]
-> **To display these diagrams in this README:**
-> Save the two uploaded screenshot files in the `docs/` folder in the project root as `architecture.png` and `user_flow.png`.
-
 ---
 
 ## 💡 How It Works (End-to-End Flow)
