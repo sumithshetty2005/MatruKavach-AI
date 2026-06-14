@@ -1,154 +1,177 @@
 # 🛡️ MatruKavach AI
 ### AI-Powered Maternal Health Risk Detection & Support System
 
-MatruKavach AI is an intelligent maternal healthcare assistant designed to reduce preventable maternal deaths by detecting risks early and providing timely alerts to mothers, ASHA workers, and doctors.
+MatruKavach AI is an intelligent, context-aware maternal healthcare assistant designed to minimize preventable maternal mortality by detecting risks early. It bridges rural healthcare gaps by connecting pregnant mothers directly with ASHA (Accredited Social Health Activist) workers and doctors through a real-time, multi-agent AI system.
 
-The system combines **AI, environmental data, and voice-based interaction** to create a proactive healthcare safety net for pregnant women, especially in rural and underserved areas.
-
----
-
-# 🌍 Problem Statement
-
-Maternal deaths often occur not because treatment is unavailable, but because **risks are detected too late**.
-
-Key challenges:
-
-- Critical complications like **preeclampsia** often go unnoticed until life-threatening stages.
-- Environmental factors such as **heatwaves and poor air quality** are rarely considered in maternal care.
-- **ASHA workers rely on manual records**, making it difficult to track high-risk cases in real time.
-
-MatruKavach AI addresses these gaps by providing **AI-driven risk monitoring and early warning alerts**.
+The application combines **environmental data (air quality, temperature, heat index)**, **clinical vitals (blood pressure, glucose, hemoglobin)**, and **local language voice messages (Hindi, Marathi)** to deliver proactive, real-time early warnings.
 
 ---
 
-# 💡 Project Overview
+## 📸 Project Visualizations & Architectural Diagrams
 
-MatruKavach AI transforms traditional maternal monitoring into a **context-aware predictive healthcare system**.
+### 1. System Architecture Diagram
+The layout below illustrates how client interactions, the API server, database tables, and the multi-agent orchestration layer coordinate.
 
-The system analyzes:
+![MatruKavach AI System Architecture](./docs/architecture.png)
 
-- Patient health data  
-- Environmental conditions  
-- Location-based risk factors  
-- Voice messages from mothers  
+### 2. User Flow & Processing Lifecycle
+This diagram walks through the step-by-step workflow of a patient submitting their information and how alerts are generated or parsed.
 
-Using AI, it generates **real-time risk scores, alerts, and clinical summaries**.
+![MatruKavach AI User Flow](./docs/user_flow.png)
 
----
-
-# 🎯 Key Features
-
-## 🧠 AI Risk Prediction
-Combines maternal health data with environmental data to predict complications before symptoms appear.
-
-## 🌡️ Environmental Health Monitoring
-Integrates weather and air-quality data to detect environmental risks affecting pregnancy.
-
-## 🎙️ Voice-to-Health Data
-Pregnant mothers can send **voice messages in Hindi or Marathi**, which are automatically:
-- Transcribed  
-- Translated  
-- Converted into structured medical data  
-
-## 🤖 Multi-Agent AI System
-Uses a **LangGraph multi-agent architecture** for reliable and modular decision making.
-
-## 🚨 Emergency Alert System
-Critical keywords like **"bleeding"** trigger **instant RED alerts**, bypassing AI delays.
-
-## 📊 Smart AI Summaries
-Doctors receive **AI-generated summaries of patient history** instead of long chat logs.
-
-## ⚡ Real-Time Alerts
-Built using **WebSockets (Socket.IO)** to instantly notify ASHA workers about high-risk cases.
+> [!NOTE]
+> **To display these diagrams in this README:**
+> Save the two uploaded screenshot files in the `docs/` folder in the project root as `architecture.png` and `user_flow.png`.
 
 ---
 
-# 👥 End Users
+## 💡 How It Works (End-to-End Flow)
 
-## 🤰 Pregnant Mothers
-- 24/7 digital health support
-- Medication reminders
-- Easy communication through voice notes
-
-## 👩‍⚕️ ASHA Workers
-- AI-generated priority alerts
-- Identify high-risk mothers quickly
-- Reduce manual tracking workload
-
-## 🧑‍⚕️ Doctors
-- Instant AI summaries of patient health history
-- Faster diagnosis and decision-making
-
-## 🏥 Healthcare Administrators
-- Identify **maternal health risk hotspots**
-- Monitor environmental impacts on maternal health
+1. **Voice Input**: A pregnant mother sends a voice note in her native language (e.g., Hindi/Marathi) via the Telegram Bot.
+2. **Translation & Parsing Engine**: The system transcribes the speech to text, translates it to English, and structures it into clinical metrics.
+3. **Emergency Rule Engine (Bypass Loop)**:
+   - The message content is immediately scanned for urgent keywords like **"bleeding"**, **"severe headache"**, or **"blurred vision"**.
+   - If detected, the system bypasses AI processing entirely and issues an **instant RED alert** via Socket.IO directly to ASHA workers and doctors for immediate triage.
+4. **Multi-Agent LangGraph Orchestration**:
+   - If no critical keywords are found, the data is routed to a state-driven LangGraph network.
+   - **Clinical Node**: Evaluates key vitals (systolic/diastolic blood pressure, glucose, weight, hemoglobin).
+   - **Geospatial Node**: Uses the patient's coordinates to fetch local weather (temperature, apparent temperature) and air quality (PM2.5 AQI) from the **Open-Meteo API**.
+   - **Guidance Node**: Generates a consolidated risk score (0-10) by applying environmental risk multipliers to clinical risk. It outputs specific clinical justifications, dietary adjustments, and environmental safety protocols using **Google Gemini**.
+5. **Real-time Synchronization**: The FastAPI backend persists the results to the SQLite DB and pushes the updates instantly to the Next.js Dashboards using **Socket.IO** (WebSockets).
 
 ---
 
-# ⚙️ System Architecture
+## 🛠️ Technology Stack
 
-The system consists of multiple intelligent components:
-
-1. Voice Interface (Telegram / Messaging Platform)
-2. Speech-to-Text Processing
-3. Language Translation
-4. AI Risk Prediction Engine
-5. Environmental Data Integration
-6. Multi-Agent AI Orchestration (LangGraph)
-7. Doctor & ASHA Worker Dashboard
-8. Real-Time Alert System
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend Dashboard** | Next.js (React), TailwindCSS, Clerk Auth | Clean UI for doctors and health workers with real-time reactive state. |
+| **Backend API Server** | FastAPI (Python), Socket.IO (ASGI) | Asynchronous REST backend & real-time WebSocket communication. |
+| **AI Orchestration** | LangGraph, LangChain, Google Gemini API | Coordinate workflows, structured agent reasoning, and vital parameter evaluations. |
+| **Database** | SQLite, SQLModel (SQLAlchemy) | Embedded SQL database mapping models (MotherProfile, Assessment, Consultations). |
+| **Integrations** | Telegram Bot API, Open-Meteo API | Direct communication and local environmental sensor/weather tracking. |
+| **Containerization** | Docker, Docker Compose | Consistent environments and single-command deployment. |
 
 ---
 
-# 🚀 Tech Stack
+## 📁 Repository Structure
 
-### AI & Backend
-- Python
-- LangGraph
-- Google Gemini
-- Speech-to-text models
-
-### Data Sources
-- Open-Meteo API (weather data)
-- Environmental data APIs
-
-### Real-Time System
-- Socket.IO
-- WebSockets
-
-### Communication
-- Telegram Bot
-
----
-
-# 📈 Impact
-
-MatruKavach AI can significantly improve maternal healthcare by:
-
-- ⚡ **10× faster triage for doctors**
-- 🧑‍⚕️ Better prioritization for ASHA workers
-- 🌍 Early detection of environmental pregnancy risks
-- 📞 Voice-based healthcare access for non-literate users
-- ⏱️ Reduced delay between symptoms and treatment
+```
+MatruKavach AI/
+├── backend/
+│   ├── agents/            # LangGraph multi-agent implementation (clinical, nutrition, orchestrator)
+│   ├── routers/           # FastAPI router endpoints (including telegram_bot routes)
+│   ├── database.db        # SQLite local database
+│   ├── main.py            # FastAPI App & Socket.IO server initialization
+│   ├── models.py          # SQLModel database schemas (MotherProfile, RiskAssessment)
+│   ├── telegram_poller.py # Telegram bot long-polling client
+│   └── requirements.txt   # Python dependency list
+├── frontend/
+│   ├── app/               # Next.js App router pages (dashboard, patient logs, consultations)
+│   ├── components/        # React dashboard UI cards, maps, charts, and alert modials
+│   └── package.json       # Next.js scripts and packages
+├── docs/                  # Project diagrams (architecture & user flow images)
+└── docker-compose.yml     # Multi-container local orchestration script
+```
 
 ---
 
-# 🔮 Future Improvements
+## 🚀 Installation & Local Setup
 
-- 📱 **Offline Edge AI support** for areas without internet
-- ⌚ Integration with **wearable medical devices**
-- 🗺️ Government **maternal risk heatmaps**
-- 👶 Expansion to **postnatal and neonatal monitoring**
+Ensure you have **Python 3.10+**, **Node.js 18+**, and **Docker** (optional) installed.
+
+### 1. Environment Variables Configuration
+
+Create a `.env` file in the project root containing the following configurations (and verify they match the subfolders):
+
+```env
+# Google Gemini API
+GOOGLE_API_KEY=your_gemini_api_key_here
+
+# Telegram Integration (Create via BotFather)
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+
+# Clerk Authentication (Next.js Dashboard Auth)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+
+# Backend URL Configuration
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
 
 ---
 
-# ❤️ Vision
+### 2. Manual Startup (Without Docker)
 
-> “If a mother receives the right alert at the right time, we save not just one life—but two.”
+#### **Step A: Start the Backend API & DB**
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a python virtual environment:
+   ```bash
+   python -m venv venv
+   # On Windows (PowerShell):
+   .\venv\Scripts\Activate.ps1
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Seed/Initialize the Database (Creates test mothers, doctors, and ASHA profiles):
+   ```bash
+   python seed_db.py
+   python seed_admin.py
+   ```
+5. Run the FastAPI development server:
+   ```bash
+   uvicorn main:socket_app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-MatruKavach AI aims to turn the **last mile of healthcare into a digital safety net**, ensuring every mother receives timely and intelligent medical support.
+#### **Step B: Start the Telegram Voice Poller**
+In a separate terminal (with the virtual environment activated):
+```bash
+cd backend
+python telegram_poller.py
+```
+
+#### **Step C: Start the Frontend App**
+1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install npm dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the Next.js development server:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and navigate to `http://localhost:3000`.
 
 ---
 
-⭐ If you like this project, consider **starring the repository**.
+### 3. Quickstart Deployment with Docker Compose
+
+To spin up the entire stack (FastAPI server, Socket.IO listeners, Next.js UI, Telegram poller) with a single command:
+
+1. Ensure the root `.env` is updated with your API keys.
+2. Spin up the containers:
+   ```bash
+   docker-compose up --build
+   ```
+3. Stop the services:
+   ```bash
+   docker-compose down
+   ```
+
+---
+
+## 👥 Targeted User Roles
+
+- **Pregnant Mothers**: Can interact in Hindi or Marathi, report symptoms via voice, and receive automatic feedback, reminders, and alerts.
+- **ASHA Workers**: Track and visit mothers with the highest risk scores. Receive instantaneous audio/visual RED alerts on their live dashboards.
+- **Doctors**: Analyze detailed clinical reasoning timelines, environmental summaries, and consult history, bypassing lengthy raw chat logs.
