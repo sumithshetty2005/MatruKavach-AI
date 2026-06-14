@@ -17,7 +17,7 @@ The layout below illustrates how client interactions, the API server, database t
 ### 2. User Flow & Processing Lifecycle
 This diagram walks through the step-by-step workflow of a patient submitting their information and how alerts are generated or parsed.
 
-![MatruKavach AI User Flow](./docs/user_flow.png)
+![MatruKavach AI User Flow](./docs/user_flow_v2.png)
 
 > [!NOTE]
 > **To display these diagrams in this README:**
