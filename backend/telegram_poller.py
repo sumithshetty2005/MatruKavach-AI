@@ -4,7 +4,7 @@ import sys
 
 import os
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8553661113:AAEU_KhpKEEK4JN75t5Ie41y3ewJVPAxSmg")
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 API_URL = f"https://api.telegram.org/bot{TOKEN}"
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 WEBHOOK_URL = f"{BACKEND_URL}/webhook/telegram"

@@ -23,7 +23,7 @@ services:
     restart: always
     command: python telegram_poller.py
     environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-8553661113:AAEU_KhpKEEK4JN75t5Ie41y3ewJVPAxSmg}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - BACKEND_URL=http://backend:8000
     depends_on:
       - backend

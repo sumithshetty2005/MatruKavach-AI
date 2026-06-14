@@ -13,7 +13,7 @@ import google.generativeai as genai
 
 router = APIRouter()
 
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8553661113:AAEU_KhpKEEK4JN75t5Ie41y3ewJVPAxSmg")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
 GEMINI_API_KEY = os.environ.get("GOOGLE_API_KEY")
